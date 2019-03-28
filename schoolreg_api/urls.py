@@ -16,6 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from API_register.views import AnnouncementListView, AnnouncementDetailView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('announcement/', AnnouncementListView.as_view(), name='announcement_list'),
+    path('announcement-detail/<pk>/', AnnouncementDetailView.as_view(), name='announcement_detail'),
 ]
