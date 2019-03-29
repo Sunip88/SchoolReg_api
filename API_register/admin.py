@@ -14,21 +14,21 @@ class MessagesAdmin(admin.ModelAdmin):
 
 
 def content_display_thirty_signs(obj):
-    return str(obj.text)[0:30]
+    return str(obj.text)[:30]
 
 
 content_display_thirty_signs.short_description = 'text'
 
 
-def deleted(model_admin, request, query_set):
-    query_set.update(deleted=True)
+def hidden(model_admin, request, query_set):
+    query_set.update(hidden=True)
 
 
-deleted.short_description = "Ukryj element w widoku"
+hidden.short_description = "Ukryj element w widoku"
 
 
 @admin.register(Announcements)
 class MessagesAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'classes', 'date', content_display_thirty_signs, 'author', 'deleted']
-    list_filter = ['deleted', 'classes']
-    actions = [deleted, ]
+    list_display = ['id', 'title', 'classes', 'date', content_display_thirty_signs, 'author', 'hidden']
+    list_filter = ['hidden', 'classes']
+    actions = [hidden, ]

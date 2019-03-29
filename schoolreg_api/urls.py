@@ -21,5 +21,5 @@ from API_register.views import AnnouncementListView, AnnouncementDetailView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('announcement/', AnnouncementListView.as_view(), name='announcement_list'),
-    path('announcement-detail/<pk>/', AnnouncementDetailView.as_view(), name='announcement_detail'),
+    path('announcement/<pk>/', AnnouncementDetailView.as_view(), name='announcement_detail'),
 ]
