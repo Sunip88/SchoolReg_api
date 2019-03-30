@@ -64,5 +64,5 @@ class Announcements(models.Model):
     title = models.CharField(max_length=64)
     date = models.DateField(auto_now_add=True)
     author = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-    deleted = models.BooleanField(default=False)
-    classes = models.ForeignKey(Classes, on_delete=models.CASCADE, default=None)
+    hidden = models.BooleanField(default=False)
+    classes = models.ForeignKey(Classes, on_delete=models.CASCADE, default=None, null=True, blank=True)
