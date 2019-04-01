@@ -1,7 +1,5 @@
 from django.contrib.auth.models import User
-from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
-from PIL import Image
 
 
 GRADES = (
@@ -59,10 +57,10 @@ class Teacher(models.Model):
 
 
 # Old Adverts and AdvertsClass
-class Announcements(models.Model):
+class Announcement(models.Model):
     text = models.TextField()
     title = models.CharField(max_length=64)
     date = models.DateField(auto_now_add=True)
     author = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     hidden = models.BooleanField(default=False)
-    classes = models.ForeignKey(Classes, on_delete=models.CASCADE, default=None, null=True, blank=True)
+    student_class = models.ForeignKey(Classes, on_delete=models.CASCADE, default=None, null=True, blank=True)

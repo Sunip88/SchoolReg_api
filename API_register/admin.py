@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from API_register.models import Classes, Teacher, Announcements
+from API_register.models import Classes, Teacher, Announcement
 
 
 @admin.register(Classes)
@@ -27,8 +27,8 @@ def hidden(model_admin, request, query_set):
 hidden.short_description = "Ukryj element w widoku"
 
 
-@admin.register(Announcements)
+@admin.register(Announcement)
 class MessagesAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'classes', 'date', content_display_thirty_signs, 'author', 'hidden']
-    list_filter = ['hidden', 'classes']
+    list_display = ['id', 'title', 'student_class', 'date', content_display_thirty_signs, 'author', 'hidden']
+    list_filter = ['hidden', 'student_class']
     actions = [hidden, ]
