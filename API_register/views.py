@@ -1,16 +1,29 @@
-from django.shortcuts import render
 from rest_framework import generics
-from django.http import Http404
+from django_filters.rest_framework import DjangoFilterBackend
+from django_filters.widgets import RangeWidget
+import django_filters
 
-from API_register.models import Announcements
+from API_register.models import Announcement, Teacher, Classes
 from API_register.serializers import AnnouncementSerializer
 
 
-class AnnouncementListView(generics.ListAPIView):
-    queryset = Announcements.objects.filter(hidden=False)
+class AnnouncementListFilter(django_filters.FilterSet):
+    author = django_filters.ModelChoiceFilter(queryset=Teacher.objects.all())
+    student_class = django_filters.ModelChoiceFilter(queryset=Classes.objects.all())
+    date = django_filters.DateFromToRangeFilter(widget=RangeWidget(attrs={'type': 'date'}))
+
+    class Meta:
+        model = Announcement
+        fields = ['author', 'student_class', 'date']
+
+
+class AnnouncementListView(generics.ListCreateAPIView):
+    queryset = Announcement.objects.filter(hidden=False)
     serializer_class = AnnouncementSerializer
+    filter_backends = (DjangoFilterBackend, )
+    filter_class = AnnouncementListFilter
 
 
-class AnnouncementDetailView(generics.RetrieveAPIView):
-    queryset = Announcements.objects.filter(hidden=False)
+class AnnouncementDetailView(generics.RetrieveUpdateAPIView):
+    queryset = Announcement.objects.filter(hidden=False)
     serializer_class = AnnouncementSerializer
