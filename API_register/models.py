@@ -2,6 +2,22 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
+class HiddenManager(models.Manager):
+    use_for_related_fields = True
+
+    def all(self, **kwargs):
+        return self.filter(hidden=False, **kwargs)
+
+
+class HiddenModel(models.Model):
+    hidden = models.BooleanField(default=False)
+    objects = HiddenManager()
+    original_objects = models.Manager()
+
+    class Meta:
+        abstract = True
+
+
 class Classes(models.Model):
     educator = models.ForeignKey('API_register.Teacher', on_delete=models.CASCADE)
     name = models.CharField(max_length=32)
@@ -21,23 +37,13 @@ class Teacher(models.Model):
         return self.classes_set.all()
 
 
-class AnnouncementManager(models.Manager):
-    use_for_related_fields = True
-
-    def all(self, **kwargs):
-        return self.filter(hidden=False, **kwargs)
-
-
 # Old Adverts and AdvertsClass
-class Announcement(models.Model):
+class Announcement(HiddenModel):
     text = models.TextField()
     title = models.CharField(max_length=64)
     date = models.DateField(auto_now_add=True)
     author = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-    hidden = models.BooleanField(default=False)
     student_class = models.ForeignKey(Classes, on_delete=models.CASCADE, default=None, null=True, blank=True)
-
-    objects = AnnouncementManager()
 
     def __str__(self):
         return f"{self.title} - {self.author}"
