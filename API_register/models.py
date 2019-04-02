@@ -21,6 +21,13 @@ class Teacher(models.Model):
         return self.classes_set.all()
 
 
+class AnnouncementManager(models.Manager):
+    use_for_related_fields = True
+
+    def all(self, **kwargs):
+        return self.filter(hidden=False, **kwargs)
+
+
 # Old Adverts and AdvertsClass
 class Announcement(models.Model):
     text = models.TextField()
@@ -29,3 +36,8 @@ class Announcement(models.Model):
     author = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     hidden = models.BooleanField(default=False)
     student_class = models.ForeignKey(Classes, on_delete=models.CASCADE, default=None, null=True, blank=True)
+
+    objects = AnnouncementManager()
+
+    def __str__(self):
+        return f"{self.title} - {self.author}"

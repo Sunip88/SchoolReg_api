@@ -18,12 +18,12 @@ class AnnouncementListFilter(django_filters.FilterSet):
 
 
 class AnnouncementListView(generics.ListCreateAPIView):
-    queryset = Announcement.objects.filter(hidden=False)
+    queryset = Announcement.objects.all()
     serializer_class = AnnouncementSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = AnnouncementListFilter
 
 
 class AnnouncementDetailView(generics.RetrieveUpdateAPIView):
-    queryset = Announcement.objects.filter(hidden=False)
+    queryset = Announcement.objects.all()
     serializer_class = AnnouncementSerializer
