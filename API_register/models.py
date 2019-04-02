@@ -2,41 +2,6 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-GRADES = (
-    (1, "1"),
-    (1.5, "1+"),
-    (1.75, "2-"),
-    (2, "2"),
-    (2.5, "2+"),
-    (2.75, "3-"),
-    (3, "3"),
-    (3.5, "3+"),
-    (3.75, "4-"),
-    (4, "4"),
-    (4.5, "4+"),
-    (4.75, "5-"),
-    (5, "5"),
-    (5.5, "5+"),
-    (5.75, "6-"),
-    (6, "6")
-)
-
-WEEKDAYS = [
-    (1, 'Poniedziałek'),
-    (2, 'Wtorek'),
-    (3, 'Środa'),
-    (4, 'Czwartek'),
-    (5, 'Piątek'),
-]
-
-
-PROFILE_ROLE_CHOICES = [
-    (0, "Student"),
-    (1, "Parent"),
-    (2, "Teacher"),
-]
-
-
 class Classes(models.Model):
     educator = models.ForeignKey('API_register.Teacher', on_delete=models.CASCADE)
     name = models.CharField(max_length=32)

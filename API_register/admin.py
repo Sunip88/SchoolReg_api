@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from API_register.models import Classes, Teacher, Announcement
+from .models import Classes, Teacher, Announcement
 
 
 @admin.register(Classes)
