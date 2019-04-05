@@ -14,6 +14,9 @@ class HiddenModel(models.Model):
     objects = HiddenManager()
     original_objects = models.Manager()
 
+    def delete(self, *args, **kwargs):
+        self.hidden = True
+
     class Meta:
         abstract = True
 
