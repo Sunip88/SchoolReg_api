@@ -3,8 +3,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django_filters.widgets import RangeWidget
 import django_filters
 
-from API_register.models import Announcement, Teacher, Classes
-from API_register.serializers import AnnouncementSerializer
+from .models import Announcement, Teacher, Classes
+from .serializers import AnnouncementSerializer
 
 
 class AnnouncementListFilter(django_filters.FilterSet):
@@ -18,12 +18,12 @@ class AnnouncementListFilter(django_filters.FilterSet):
 
 
 class AnnouncementListView(generics.ListCreateAPIView):
-    queryset = Announcement.objects.filter(hidden=False)
+    queryset = Announcement.objects.all()
     serializer_class = AnnouncementSerializer
-    filter_backends = (DjangoFilterBackend, )
+    filter_backends = (DjangoFilterBackend,)
     filter_class = AnnouncementListFilter
 
 
 class AnnouncementDetailView(generics.RetrieveUpdateAPIView):
-    queryset = Announcement.objects.filter(hidden=False)
+    queryset = Announcement.objects.all()
     serializer_class = AnnouncementSerializer

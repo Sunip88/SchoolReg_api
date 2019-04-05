@@ -2,39 +2,23 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-GRADES = (
-    (1, "1"),
-    (1.5, "1+"),
-    (1.75, "2-"),
-    (2, "2"),
-    (2.5, "2+"),
-    (2.75, "3-"),
-    (3, "3"),
-    (3.5, "3+"),
-    (3.75, "4-"),
-    (4, "4"),
-    (4.5, "4+"),
-    (4.75, "5-"),
-    (5, "5"),
-    (5.5, "5+"),
-    (5.75, "6-"),
-    (6, "6")
-)
+class HiddenManager(models.Manager):
+    use_for_related_fields = True
 
-WEEKDAYS = [
-    (1, 'Poniedziałek'),
-    (2, 'Wtorek'),
-    (3, 'Środa'),
-    (4, 'Czwartek'),
-    (5, 'Piątek'),
-]
+    def all(self, **kwargs):
+        return self.filter(hidden=False, **kwargs)
 
 
-PROFILE_ROLE_CHOICES = [
-    (0, "Student"),
-    (1, "Parent"),
-    (2, "Teacher"),
-]
+class HiddenModel(models.Model):
+    hidden = models.BooleanField(default=False)
+    objects = HiddenManager()
+    original_objects = models.Manager()
+
+    def delete(self, *args, **kwargs):
+        self.hidden = True
+
+    class Meta:
+        abstract = True
 
 
 class Classes(models.Model):
@@ -57,10 +41,12 @@ class Teacher(models.Model):
 
 
 # Old Adverts and AdvertsClass
-class Announcement(models.Model):
+class Announcement(HiddenModel):
     text = models.TextField()
     title = models.CharField(max_length=64)
     date = models.DateField(auto_now_add=True)
     author = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-    hidden = models.BooleanField(default=False)
     student_class = models.ForeignKey(Classes, on_delete=models.CASCADE, default=None, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.title} - {self.author}"
