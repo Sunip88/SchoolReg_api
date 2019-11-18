@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-from locals import db_pass, db_user, db_host, db_name, secret_key
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -76,11 +75,12 @@ WSGI_APPLICATION = 'schoolreg_api.wsgi.application'
 
 DATABASES = {
     'default': {
-        'HOST': db_host,
-        'NAME': db_name,
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'USER': db_user,
-        'PASSWORD': db_pass,
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('POSTGRES_DB', 'postgres'),
+        'USER': os.environ.get('POSTGRES_USER', 'postgres'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'postgres'),
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 

@@ -1,5 +1,6 @@
 0_test/
 locals.py
+dev.env
 # Created by https://www.gitignore.io/api/python,visualstudiocode
 bower_components/
 ### Python ###
